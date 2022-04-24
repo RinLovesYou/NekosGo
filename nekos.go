@@ -12,7 +12,7 @@ const apiUrl = "https://api.nekos.dev/api/v3/"
 
 func Image(endpoint interface{}, contentType ContentType) (string, error) {
 	if v, ok := endpoint.(NSFW); ok {
-		return getImage(string(v), "sfw", contentType)
+		return getImage(string(v), "nsfw", contentType)
 	} else if v, ok := endpoint.(SFW); ok {
 		return getImage(string(v), "sfw", contentType)
 	}
