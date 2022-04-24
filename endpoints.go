@@ -71,6 +71,6 @@ const (
 type ContentType string
 
 const (
-	image ContentType = "image"
-	gif   ContentType = "gif"
+	ImageType ContentType = "image"
+	GifType   ContentType = "gif"
 )
