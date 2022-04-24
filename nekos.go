@@ -8,19 +8,19 @@ import (
 	"net/http"
 )
 
-const apiUrl = "https://api.nekos.dev/api/v3/images/"
+const apiUrl = "https://api.nekos.dev/api/v3/"
 
-func Image(ep interface{}) (string, error) {
-	if v, ok := ep.(NSFW); ok {
-		return getImage(string(v), "nsfw")
-	} else if v, ok := ep.(SFW); ok {
-		return getImage(string(v), "sfw")
+func Image(endpoint interface{}, contentType ContentType) (string, error) {
+	if v, ok := endpoint.(NSFW); ok {
+		return getImage(string(v), "sfw", contentType)
+	} else if v, ok := endpoint.(SFW); ok {
+		return getImage(string(v), "sfw", contentType)
 	}
 	return "", errors.New("invalid endpoint provided")
 }
 
-func getImage(ep string, sfw string) (string, error) {
-	url := fmt.Sprintf("%s%s/%s", apiUrl, sfw, ep)
+func getImage(endpoint string, sfw string, ct ContentType) (string, error) {
+	url := fmt.Sprintf("%s%s/%s/%s/", apiUrl, string(ct), sfw, endpoint)
 
 	resp, err := http.Get(url)
 	if err != nil {
