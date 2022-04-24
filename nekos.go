@@ -10,17 +10,21 @@ import (
 
 const apiUrl = "https://api.nekos.dev/api/v3/images"
 
-func Image(endpoint interface{}, contentType ContentType) (string, error) {
-	if v, ok := endpoint.(NSFW); ok {
-		return getImage(string(v), "nsfw", contentType)
-	} else if v, ok := endpoint.(SFW); ok {
-		return getImage(string(v), "sfw", contentType)
+func Image(endpoint interface{}) (string, error) {
+	if v, ok := endpoint.(NSFWImage); ok {
+		return getImage(string(v), "nsfw", "img")
+	} else if v, ok := endpoint.(SFWImage); ok {
+		return getImage(string(v), "sfw", "img")
+	} else if v, ok := endpoint.(NSFWGif); ok {
+		return getImage(string(v), "nsfw", "gif")
+	} else if v, ok := endpoint.(SFWGif); ok {
+		return getImage(string(v), "sfw", "gif")
 	}
 	return "", errors.New("invalid endpoint provided")
 }
 
-func getImage(endpoint string, sfw string, ct ContentType) (string, error) {
-	url := fmt.Sprintf("%s/%s/%s/%s/", apiUrl, sfw, string(ct), endpoint)
+func getImage(endpoint string, sfw string, ct string) (string, error) {
+	url := fmt.Sprintf("%s/%s/%s/%s/", apiUrl, sfw, ct, endpoint)
 
 	resp, err := http.Get(url)
 	if err != nil {
