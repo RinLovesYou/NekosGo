@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-const apiUrl = "https://api.nekos.dev/api/v3/"
+const apiUrl = "https://api.nekos.dev/api/v3/images"
 
 func Image(endpoint interface{}, contentType ContentType) (string, error) {
 	if v, ok := endpoint.(NSFW); ok {
@@ -20,7 +20,7 @@ func Image(endpoint interface{}, contentType ContentType) (string, error) {
 }
 
 func getImage(endpoint string, sfw string, ct ContentType) (string, error) {
-	url := fmt.Sprintf("%s%s/%s/%s/", apiUrl, string(ct), sfw, endpoint)
+	url := fmt.Sprintf("%s/%s/%s/%s/", apiUrl, sfw, string(ct), endpoint)
 
 	resp, err := http.Get(url)
 	if err != nil {
